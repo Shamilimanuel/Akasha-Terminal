@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wish Counter Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="wish.css">
+  <script>
+    try {
+      var t = localStorage.getItem("akasha-theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  </script>
+  <style>
+    .proto-bar{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; padding:18px 2px 16px; margin-bottom:18px; border-bottom:1px solid var(--border-soft);}
+    .proto-bar h1{font-size:18px; letter-spacing:.18em; text-transform:uppercase;}
+    .proto-stamp{font-family:"JetBrains Mono",monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--bad); background:var(--bad-soft); border:1px solid color-mix(in srgb, var(--bad) 30%, transparent); padding:4px 9px; border-radius:var(--r-sm);}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="proto-bar">
+      <h1>Wish Counter · prototype</h1>
+      <span class="proto-stamp">Sample numbers — not your account</span>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-t="auto">Auto</button><button type="button" data-t="light">Light</button><button type="button" data-t="dark">Dark</button>
+      </div>
+    </header>
+    <div class="deck">
+      <aside class="rail" id="wish-rail"></aside>
+      <div class="stream" id="wish-root"></div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="../data.js"></script>
+  <script src="wish-sample.js"></script>
+  <script src="wish.js"></script>
+  <script>
+    // Same theme switch as the dashboard, minimal.
+    (function () {
+      const btns = document.querySelectorAll(".theme-switch button");
+      const mark = (m) => btns.forEach((b) => b.setAttribute("aria-pressed", b.dataset.t === m));
+      let cur = "auto";
+      try { cur = localStorage.getItem("akasha-theme") || "auto"; } catch (e) {}
+      mark(cur);
+      btns.forEach((b) => b.addEventListener("click", () => {
+        const m = b.dataset.t;
+        if (m === "auto") document.documentElement.removeAttribute("data-theme");
+        else document.documentElement.setAttribute("data-theme", m);
+        try { localStorage.setItem("akasha-theme", m); } catch (e) {}
+        mark(m);
+      }));
+    })();
+  </script>
+</body>
+</html>

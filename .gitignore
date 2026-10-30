@@ -1,0 +1,4 @@
+# Your own wish history. The archive is made by sync-wishes.ps1 and holds your wish records.
+wish-archive.json
+.vscode/
+tests/out/
